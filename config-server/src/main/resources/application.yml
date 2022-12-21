@@ -4,10 +4,11 @@ spring:
     name: config-server
   cloud:
     config:
+      enabled: true
       server:
         git:
           default-label: master
           uri: https://github.com/nelsonjaimes/nttdata-bc39-proyecto-final
           username: nelsonjaimes
-          password: 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
+          password: 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
           search-paths: config-server/config-data
