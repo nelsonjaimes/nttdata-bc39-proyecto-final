@@ -10,5 +10,5 @@ spring:
           default-label: master
           uri: https://github.com/nelsonjaimes/nttdata-bc39-proyecto-final
           username: nelsonjaimes
-          password: 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
+          password: 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
           search-paths: config-server/config-data

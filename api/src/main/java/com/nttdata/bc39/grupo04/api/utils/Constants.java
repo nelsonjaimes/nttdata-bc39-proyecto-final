@@ -37,11 +37,20 @@ public final class Constants {
 
     public static final double MIN_AMOUNT_DAILY_AVERAGE = 0;
     public static final double MIN_AMOUNT_MANTENANCE_FEET = 0;
-    
+
     public static final int MIN_DEPOSIT_WALLET = 1;
     public static final int MAX_DEPOSIT_WALLET = 5000;
     public static final int MIN_WITHDRAWAL_WALLET = 1;
     public static final int MAX_WITHDRAWAL_WALLET = 5000;
+
+    //BOOTCOIN
+    public static final String BOOTCOIN_TYPE_OPERATION_BUYER = "BUYER";
+    public static final String BOOTCOIN_TYPE_OPERATION_SELLER = "SELLER";
+    public static final String BOOTCOIN_TYPE_BOTH = "BOTH";
+    public static final double BOOTCOIN_BUY_RATE = 3.8170;
+    public static final double BOOTCOIN_SELL_RATE = 3.8380;
+    public static final String PAY_METHOD_YANKI = "YANKI";
+    public static final String PAY_METHOD_TRANSFERENCE = "TRANSFERENCE";
 
 
     public static String getNameProduct(String productId) {

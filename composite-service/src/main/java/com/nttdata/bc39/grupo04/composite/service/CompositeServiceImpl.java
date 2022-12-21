@@ -26,8 +26,9 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinOperationDTO;
+import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinDTO;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -91,6 +92,20 @@ public class CompositeServiceImpl implements CompositeService {
 		logger.debug("publicKafkaMessage ====>" + event);
 		eventService.publish(event);
 	}
+
+	//Bootcoin
+
+	@Override
+	public BootcoinDTO createBootcoinAccount(BootcoinDTO dto) {
+		return null;
+	}
+
+	@Override
+	public BootcoinOperationDTO buyOperationBootcoin(BootcoinOperationDTO dto) {
+		return null;
+	}
+
+	//=====>>>
 
 	@Override
 	public Mono<TransactionAtmDTO> makeDepositATM(String destinationAccountNumber, double amount) {

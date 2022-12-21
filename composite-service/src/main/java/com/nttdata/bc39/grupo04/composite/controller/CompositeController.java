@@ -1,6 +1,8 @@
 package com.nttdata.bc39.grupo04.composite.controller;
 
 import com.nttdata.bc39.grupo04.api.account.*;
+import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinOperationDTO;
+import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinDTO;
 import com.nttdata.bc39.grupo04.api.composite.*;
 import com.nttdata.bc39.grupo04.api.credit.CreditCardReportDTO;
 import com.nttdata.bc39.grupo04.api.credit.CreditDTO;
@@ -11,7 +13,6 @@ import com.nttdata.bc39.grupo04.api.product.GeneralReportDTO;
 import com.nttdata.bc39.grupo04.api.product.ProductDTO;
 import com.nttdata.bc39.grupo04.api.wallet.WalletDTO;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import com.nttdata.bc39.grupo04.api.wallet.WalletAssociatedDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -203,19 +204,19 @@ public class CompositeController {
     public Mono<Void> deleteProduct(@PathVariable(value = "code") String code) {
         return service.deleteProductByCode(code);
     }
-     
-     //wallets endpoints
-     
- 	@GetMapping(value = "/wallet/findByPhoneNumber/{phoneNumber}")
- 	public Mono<WalletDTO> getWalletByPhoneNumber(@PathVariable(value = "phoneNumber") String phoneNumber) {
- 		return service.getWalletByPhoneNumber(phoneNumber);
- 	}
- 	
-	@PostMapping(value = "/wallet/save")
-	public Mono<WalletDTO> createWallet(@RequestBody WalletDTO body) {
-		return service.createWallet(body);
-	}
-	
+
+    //wallets endpoints
+
+    @GetMapping(value = "/wallet/findByPhoneNumber/{phoneNumber}")
+    public Mono<WalletDTO> getWalletByPhoneNumber(@PathVariable(value = "phoneNumber") String phoneNumber) {
+        return service.getWalletByPhoneNumber(phoneNumber);
+    }
+
+    @PostMapping(value = "/wallet/save")
+    public Mono<WalletDTO> createWallet(@RequestBody WalletDTO body) {
+        return service.createWallet(body);
+    }
+
 
     @PutMapping("/wallet/sendPayment")
     Mono<TransactionAtmDTO> sendPayment(@RequestBody TransactionTransferWalletDTO dto) {
@@ -226,5 +227,16 @@ public class CompositeController {
     @PostMapping("/wallet/associatedWithDebitCard")
     public void associatedWithDebitCard(@RequestBody WalletAssociatedDTO body) {
         service.associatedWithDebitCard(body);
+    }
+
+    //Bootcoin
+    @PostMapping("/bootcoin/save")
+    public BootcoinDTO createBootcoinAccount(BootcoinDTO body) {
+        return service.createBootcoinAccount(body);
+    }
+
+    @PostMapping("bootcoin/buy")
+    public BootcoinOperationDTO buyOperationBootcoin(BootcoinOperationDTO body) {
+        return service.buyOperationBootcoin(body);
     }
 }
