@@ -4,10 +4,10 @@
 - Nelson Jaimes Gonzales (233430)
 
 ### Documento Draw-io
-- link: https://drive.google.com/file/d/1QtvHi3y--hvM1ed2_QCLGveJh3EUoMhX/view?usp=share_link
+- link: https://drive.google.com/file/d/1ZXrb1YPYBgVFF-nR6yO3QSuyHZCERKWU/view?usp=share_link
 
 ### POSTMAN
-- Link: https://app.getpostman.com/join-team?invite_code=b1fe6bab75932596be7ecc6ac6d2a453&target_code=5eb88f857e171a5c86875bb78f785614
+- Link: https://app.getpostman.com/join-team?invite_code=ce043d2afef9992f1229f91ffc6a9d7c&target_code=563e191692cde79ca47a86eabc8614b8
 
 ### ARQUITECTURA
-![Image text](https://github.com/ismapera/nttdata-bc39-grupo4-project04/blob/master/img/proyecto%2004.PNG)
+![Image text](https://github.com/nelsonjaimes/nttdata-bc39-proyecto-final/blob/master/img/final%20-%20nttdata.PNG)
