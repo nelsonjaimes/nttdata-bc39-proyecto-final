@@ -103,5 +103,5 @@ public interface CompositeService {
 
     //BootCoin
     BootcoinDTO createBootcoinAccount(BootcoinDTO dto);
-    BootcoinOperationDTO buyOperationBootcoin(BootcoinOperationDTO dto);
+    BootcoinOperationDTO sellerAceptOperation(BootcoinOperationDTO dto);
 }

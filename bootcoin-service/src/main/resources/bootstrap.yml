@@ -1,6 +1,11 @@
 spring:
   application:
-    name:  bootcoin-service
+    name: bootcoin-service
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6378
   cloud:
     config:
       enabled: true
@@ -26,6 +31,11 @@ eureka:
 spring.config.activate.on-profile: docker
 server.port: 8080
 spring:
+  cache:
+    type: redis
+  redis:
+    host: redisdocker
+    port: 6379
   cloud:
     config:
       enabled: true

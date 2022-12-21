@@ -3,14 +3,18 @@ package com.nttdata.bc39.grupo04.bootcoin.service;
 import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinDTO;
 import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinOperationDTO;
 import com.nttdata.bc39.grupo04.api.bootcoin.BootcoinService;
+import com.nttdata.bc39.grupo04.api.composite.TransactionTransferDTO;
 import com.nttdata.bc39.grupo04.api.exceptions.InvaliteInputException;
+import com.nttdata.bc39.grupo04.api.exceptions.NotFoundException;
+import com.nttdata.bc39.grupo04.api.kafka.Event;
+import com.nttdata.bc39.grupo04.api.kafka.EventType;
 import com.nttdata.bc39.grupo04.api.utils.Constants;
 import com.nttdata.bc39.grupo04.bootcoin.persistence.BootcoinEntity;
 import com.nttdata.bc39.grupo04.bootcoin.persistence.BootcoinOperationEntity;
 import com.nttdata.bc39.grupo04.bootcoin.persistence.BootcoinOperationRepository;
 import com.nttdata.bc39.grupo04.bootcoin.persistence.BootcoinRepository;
-import com.nttdata.bc39.grupo04.bootcoin.redis.RedisConfiguration;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static com.nttdata.bc39.grupo04.bootcoin.redis.RedisConfiguration.BOOTCOIN_CACHE;
+
 @RequiredArgsConstructor
 @Service
 public class BootcoinServiceImpl implements BootcoinService {
@@ -30,6 +36,8 @@ public class BootcoinServiceImpl implements BootcoinService {
     private final BootcoinMapper mapper;
     private final BootcoinRepository bootcoinRepository;
     private final BootcoinOperationRepository bootcoinOperationRepository;
+    private static final Logger logger = Logger.getLogger(BootcoinServiceImpl.class);
+    private final BootcoinEventService bootcoinEventService;
 
     @Override
     public BootcoinOperationDTO aceptSellOperation(BootcoinOperationDTO body) {
@@ -38,12 +46,25 @@ public class BootcoinServiceImpl implements BootcoinService {
         if (Objects.isNull(entity)) {
             throw new InvaliteInputException("Error, no existe la solicitud de compra  id:" + body.getRequestNumber());
         }
+
+        double totalAmount = entity.getAmountCoins() * Constants.BOOTCOIN_SELL_RATE;
+        //make transference
+        TransactionTransferDTO transferDTO = new TransactionTransferDTO();
+        transferDTO.setSourceAccount(entity.getBuyerAccountNumber());
+        transferDTO.setDestinationAccount(body.getSellerAccountNumber());
+        transferDTO.setAmount(totalAmount);
+
+        Event<TransactionTransferDTO> transactionTransferDTOEvent = new Event<>(transferDTO,
+                EventType.MAKE_TRANSFERENCE, "Enviando transferencia desde bootcoin-service");
+        logger.debug("MAKE_TRANSFERENCE:::" + transactionTransferDTOEvent);
+        bootcoinEventService.publish(transactionTransferDTOEvent);
+        //update in bootcoin
         entity.setSellerNumber(body.getSellerNumber());
         entity.setSellerAcceptanceDate(new Date());
         entity.setSellerAccountNumber(body.getSellerAccountNumber());
         entity.setSellerNumberWallet(body.getSellerNumberWallet());
         entity.setTransactionNumber(transactionSupplier.get());
-        entity.setTotalAmountPen(entity.getAmountCoins() * Constants.BOOTCOIN_SELL_RATE);
+        entity.setTotalAmountPen(totalAmount);
         BootcoinOperationEntity updateEntity = bootcoinOperationRepository.save(entity);
         return mapper.operationEntityToDto(updateEntity);
     }
@@ -76,6 +97,7 @@ public class BootcoinServiceImpl implements BootcoinService {
         BootcoinEntity entity = mapper.dtoToEntity(dto);
         UUID uuid = UUID.randomUUID();
         entity.setId(uuid.toString());
+        entity.setCreatedDate(new Date());
         try {
             return mapper.entityToDto(bootcoinRepository.save(entity));
         } catch (DuplicateKeyException exception) {
@@ -102,10 +124,14 @@ public class BootcoinServiceImpl implements BootcoinService {
         }
     }
 
-    @Cacheable(RedisConfiguration.BOOTCOIN_CACHE)
+    @Cacheable(BOOTCOIN_CACHE)
     @Override
     public BootcoinDTO getByDocumentNumber(String documentNumber) {
         BootcoinEntity entity = bootcoinRepository.findByDocumentNumber(documentNumber);
+        if (Objects.isNull(entity)) {
+            logger.debug("El cliente nro: " + documentNumber + ",no existe");
+            throw new NotFoundException("Error, el cliente nro: " + documentNumber + ",no existe");
+        }
         return mapper.entityToDto(entity);
     }
 

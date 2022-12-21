@@ -38,17 +38,12 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         redisCacheManager.setTransactionAware(true);
         return redisCacheManager;
     }
-
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> builder
                 .withCacheConfiguration(BOOTCOIN_CACHE,
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
-                .withCacheConfiguration(OPERATION_CACHE,
-                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5))
-        );
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)));
     }
-
     @Bean
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()

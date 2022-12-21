@@ -235,8 +235,8 @@ public class CompositeController {
         return service.createBootcoinAccount(body);
     }
 
-    @PostMapping("bootcoin/buy")
-    public BootcoinOperationDTO buyOperationBootcoin(BootcoinOperationDTO body) {
-        return service.buyOperationBootcoin(body);
+    @PostMapping("bootcoin/sellerAcept")
+    public BootcoinOperationDTO sellerAceptOperation(BootcoinOperationDTO body) {
+        return service.sellerAceptOperation(body);
     }
 }

@@ -35,6 +35,9 @@ app:
   wallet-service:
     host: localhost
     port: 9090
+  bootcoin-service:
+    host: localhost
+    port: 8083
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
@@ -72,5 +75,8 @@ app:
     port: 8080
   wallet-service:
     host: wallet-service
+    port: 8080
+  bootcoin-service:
+    host: bootcoin-service
     port: 8080
 

@@ -101,7 +101,13 @@ public class CompositeServiceImpl implements CompositeService {
 	}
 
 	@Override
-	public BootcoinOperationDTO buyOperationBootcoin(BootcoinOperationDTO dto) {
+	public BootcoinOperationDTO sellerAceptOperation(BootcoinOperationDTO dto) {
+		if (Objects.isNull(dto)){
+			throw new InvaliteInputException("Error, el cuerpo de la solicitud");
+		}
+		if (Objects.isNull(dto.getRequestNumber())){
+			throw new InvaliteInputException("Error, debe de enviar el Numero de solicitud de la compra.");
+		}
 		return null;
 	}
 
@@ -226,9 +232,14 @@ public class CompositeServiceImpl implements CompositeService {
 			integration.saveWithdrawlMovement(sourceMovement);
 			break;
 		case TYPE_TRANSFER:
+			logger.debug("TYPE_TRANSFER ==>> amount = "+ amount);
+			logger.debug("TYPE_TRANSFER ==>> sourceAccountNumber = "+ sourceAccountNumber);
 			sourceAccountMono = integration.makeWithdrawalAccount(amount, sourceAccountNumber);
+			logger.debug("TYPE_TRANSFER ==>> sourceAccountMono = "+ sourceAccountMono);
 			destinationAccountMono = integration.makeDepositAccount(newAmount, destinationAccountNumber);
+			logger.debug("TYPE_TRANSFER ==>> destinationAccountMono = "+ destinationAccountMono);
 			sourceMovement.setAvailableBalance(Objects.requireNonNull(sourceAccountMono.block()).getAvailableBalance());
+			logger.debug("TYPE_TRANSFER ==>> sourceMovement = "+ sourceMovement);
 			integration.saveWithdrawlMovement(sourceMovement);
 			break;
 		case TYPE_SEND_WALLET:
@@ -241,7 +252,7 @@ public class CompositeServiceImpl implements CompositeService {
 
 		destinationMovement
 				.setAvailableBalance(Objects.requireNonNull(destinationAccountMono.block()).getAvailableBalance());
-
+		logger.debug("destinationMovement ==>>" + destinationMovement);
 		if (codesEnum == CodesEnum.TYPE_WITHDRAWL) {
 			integration.saveWithdrawlMovement(destinationMovement);
 		} else {
@@ -254,6 +265,7 @@ public class CompositeServiceImpl implements CompositeService {
 		transactionAtmDTO.setComission(Math.abs(newComission));
 		transactionAtmDTO.setTotalAmount(amount);
 		transactionAtmDTO.setDate(Calendar.getInstance().getTime());
+		logger.debug("transactionAtmDTO ==>>" + transactionAtmDTO);
 		return Mono.just(transactionAtmDTO);
 	}
 

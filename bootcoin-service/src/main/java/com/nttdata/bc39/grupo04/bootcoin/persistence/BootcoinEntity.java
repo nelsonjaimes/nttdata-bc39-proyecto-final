@@ -7,18 +7,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "bootcoin")
-public class BootcoinEntity {
+public class BootcoinEntity implements Serializable {
     @Id
     private String id;
     @Indexed(unique = true)
     private String documentNumber;
-    private String typeUser;
     private String documentType;
     private String phoneNumber;
     private String mail;
