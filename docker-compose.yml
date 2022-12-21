@@ -54,6 +54,21 @@ services:
       eureka-server:
         condition: service_started
 
+  bootcoin-service:
+    build: bootcoin-service
+    mem_limit: 512m
+    ports:
+      - "8083:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mongodocker:
+        condition: service_healthy
+      config-server:
+        condition: service_started
+      eureka-server:
+        condition: service_healthy
+
   movements-service:
     build: movements-service
     mem_limit: 512m

@@ -7,5 +7,7 @@ spring:
       server:
         git:
           default-label: master
-          uri: https://github.com/NTTDATA-BOTCAMP-39-GRUPO-04/nttdata-bc39-grupo4-project04
+          uri: https://github.com/nelsonjaimes/nttdata-bc39-proyecto-final
+          username: nelsonjaimes
+          password: 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
           search-paths: config-server/config-data
