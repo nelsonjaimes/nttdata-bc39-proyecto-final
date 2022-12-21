@@ -1,0 +1,11 @@
+server.port: 9097
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          default-label: master
+          uri: https://github.com/NTTDATA-BOTCAMP-39-GRUPO-04/nttdata-bc39-grupo4-project04
+          search-paths: config-server/config-data
