@@ -1,8 +1,7 @@
-# NTTDATA - BOOTCAMP 39 - GRUPO 04 - PROYECTO 04
-## Integrantes
+# NTTDATA - BOOTCAMP 39 - PROYECTO FINAL - PROYECTO 04
+## Integrante
 
 - Nelson Jaimes Gonzales (233430)
-- Ismael José Peralta Arrieche (233431)
 
 ### Documento Draw-io
 - link: https://drive.google.com/file/d/1QtvHi3y--hvM1ed2_QCLGveJh3EUoMhX/view?usp=share_link
